@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -15,7 +16,10 @@ public class WORLD_GENERATOR : MonoBehaviour
     {
         CreateSingleton();
 
-        //------START OF WORLD GEN------  REST STARTS IN START() FUNCTION      
+        //------START OF WORLD GEN------  REST STARTS IN START() FUNCTION
+        //generate world size x and y
+        worldSizeX = worldWidth * chunkWidth;
+        worldSizeY = worldHeight * chunkHeight;
         GenerateTileMapObejcts();
     }
 
@@ -79,6 +83,8 @@ public class WORLD_GENERATOR : MonoBehaviour
 
     private void Start()
     {
+
+
         //checking biome elevation gaps
         for (int i = 1; i < biomeTable.biomes.Count; i++)
         {
@@ -88,11 +94,7 @@ public class WORLD_GENERATOR : MonoBehaviour
             }
         }
 
-        //generate world size x and y
-        worldSizeX = worldWidth * chunkWidth;
-        worldSizeY = worldHeight * chunkHeight;
-
-        TILE_MANAGER.instance.DeclareTileDataArray(worldSizeX * worldSizeY);//called so it is declared before things are added
+        
 
         //order is important must have generation after determining the values
         GenerateSeed();
@@ -133,32 +135,6 @@ public class WORLD_GENERATOR : MonoBehaviour
     //Generates the tilemap objects 
     private void GenerateTileMapObejcts()
     {
-        #region OLD CODE
-        //OLD STUFF
-        //tileMapGrid = new GameObject();
-        //tileMapGrid.name = "Grid";
-        //tileMapGrid.AddComponent<Grid>();
-        //tileMapGrid.GetComponent<Grid>().cellSize = new Vector3 (1,1,0);
-        //tileMapGrid.GetComponent<Grid>().cellLayout = GridLayout.CellLayout.Rectangle;
-
-        //walkableTileMap = new GameObject();
-        //nonWalkableTileMap = new GameObject();
-
-        ////generate the tilemap for terrain to walk on
-        //walkableTileMap.transform.parent = tileMapGrid.gameObject.transform;
-        //walkableTileMap.name = "WalkableTileMap";
-        //walkableTileMap.AddComponent<Tilemap>();
-        //walkableTileMap.AddComponent<TilemapRenderer>(); 
-        //walkableTileMapComponent = walkableTileMap.GetComponent<Tilemap>();
-
-        ////generate terrain to not be able to walk on
-        //nonWalkableTileMap.transform.parent = tileMapGrid.gameObject.transform;
-        //nonWalkableTileMap.name = "NonWalkableTileMap";
-        //nonWalkableTileMap.AddComponent<Tilemap>();
-        //nonWalkableTileMap.AddComponent<TilemapRenderer>();
-        //nonWalkableTileMap.AddComponent<TilemapCollider2D>();
-        //nonWalkableTileMapComponent = nonWalkableTileMap.GetComponent<Tilemap>();      
-        #endregion
         world = new GameObject("WORLD"); //create gameobject that all chunks will be under        
     }
 
@@ -227,45 +203,6 @@ public class WORLD_GENERATOR : MonoBehaviour
         Debug.LogError("NO VALID BIOME FOUND - CHECK THE BIOME TABLE");
         return null;
     }
-
-    #region OLD CODE
-    //Determines which grid to place tile in and places it
-    /*private void PlaceTile(Biome passedBiome, Vector3Int pos, GameObject chunk)
-    {
-        if (passedBiome == null)
-        {
-            Debug.LogError("NO BIOME FOUND - - CHECK IF ONE HAS BEEN PASSED THROUGH");
-            return;
-        }
-
-        //Get tilemaps and kack
-        Tilemap walkableTilemap = chunk.transform.GetChild(0).GetComponent<Tilemap>();
-        Tilemap nonWalkableTilemap = chunk.transform.GetChild(1).GetComponent<Tilemap>();
-
-        //Cheeky validation
-        if (walkableTilemap = null) 
-        {
-            Debug.LogError("NO WALKABLE TILEMAP FOUND - - CHECK IF ONE HAS BEEN PASSED THROUGH");
-            return;
-        }
-        if (nonWalkableTilemap = null)
-        {
-            Debug.LogError("NO NON-WALKABLE TILEMAP FOUND - - CHECK IF ONE HAS BEEN PASSED THROUGH");
-            return;
-        }
-
-        TileBase tile = passedBiome.tiles[UnityEngine.Random.Range(0, passedBiome.tiles.Length)];
-
-        if (passedBiome.isTileNotWalkable)
-        {
-            nonWalkableTilemap.SetTile(pos, tile);
-        }
-        else
-        {
-            walkableTilemap.SetTile(pos, tile);
-        }       
-    }*/
-    #endregion
 
     //Generates a noise map for elevation
     private void GenerateElevationNoiseMap()

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -20,5 +21,19 @@ public class PlayerMovement : MonoBehaviour
         moveInput.Normalize();
 
         rb.linearVelocity = moveInput * moveSpeed;
+
+        //for testing
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Vector2Int newOne = new Vector2Int((int)gameObject.transform.position.x, (int)gameObject.transform.position.y);
+            Debug.Log(TILE_MANAGER.instance.GetSpecificTileData(newOne).biome.name);
+            
+            List<TileData> tileData = TILE_MANAGER.instance.GetSurroundingTiles(newOne);
+
+            foreach (TileData tile in tileData) 
+            { 
+                Debug.Log(tile.isNotWalkable);
+            }
+        }
     }
 }

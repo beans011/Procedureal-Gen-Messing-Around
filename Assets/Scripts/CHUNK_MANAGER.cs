@@ -41,7 +41,7 @@ public class CHUNK_MANAGER : MonoBehaviour
     private void GetListOfChunks()
     {
         chunks = WORLD_GENERATOR.instance.GetChunks();
-        SetupChunkCenters();
+        SetupChunkCenters();        
     }
 
     //Get chunk info for other scripts

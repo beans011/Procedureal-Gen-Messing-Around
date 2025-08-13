@@ -1,12 +1,15 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 [System.Serializable]
 public class TileData
 {
     public Biome biome;
-    public bool isWalkable;
+    public bool isNotWalkable;
     public TileBase tile;
     public Vector3 tileWorldPos;
 }
@@ -18,7 +21,7 @@ public class TILE_MANAGER : MonoBehaviour
 
     private void Awake()
     {
-        CreateSingleton();       
+        CreateSingleton();      
     }
 
     void CreateSingleton()
@@ -35,13 +38,15 @@ public class TILE_MANAGER : MonoBehaviour
     }
     #endregion
 
-    private TileData[] tileDataArray; //where all the tileData is stored
+    private Dictionary<Vector2Int, TileData> tileDataMap = new Dictionary<Vector2Int, TileData>(); //for very fast look ups at runtime
 
-    //Declares the tileDataArray
-    public void DeclareTileDataArray(int arrayLength)
+    //offset stuff for getting surrounding tiles
+    private Vector2Int[] directions = new Vector2Int[]
     {
-        tileDataArray = new TileData[arrayLength];
-    }
+        new Vector2Int(-1, -1), new Vector2Int(-1, 0), new Vector2Int(-1, 1),
+        new Vector2Int( 0, -1),                        new Vector2Int( 0,  1),
+        new Vector2Int( 1, -1), new Vector2Int( 1, 0), new Vector2Int( 1,  1)
+    };
 
     //Determines which grid to place tile in and places it
     public void PlaceTile(Biome passedBiome, Vector3Int pos, GameObject chunk)
@@ -87,7 +92,7 @@ public class TILE_MANAGER : MonoBehaviour
     private void AddTileToDataMap(Biome passedBiome, Vector3 pos, GameObject chunk, TileBase tilePassed)
     {
         //Work out world pos
-        Vector3Int posInt = new Vector3Int(
+        Vector3Int posWorld = new Vector3Int(
                 (int)(pos.x + (int)chunk.transform.position.x),
                 (int)(pos.y + (int)chunk.transform.position.y),
                 0
@@ -97,11 +102,48 @@ public class TILE_MANAGER : MonoBehaviour
         TileData newTileData = new TileData
         {
             biome = passedBiome,
-            isWalkable = passedBiome.isTileNotWalkable,
+            isNotWalkable = passedBiome.isTileNotWalkable,
             tile = tilePassed,
-            tileWorldPos = posInt
+            tileWorldPos = posWorld
         };
 
-        tileDataArray.Append(newTileData);
+        //cheeky validation
+        if (newTileData == null)
+        {
+            Debug.LogError("TILE DATA IS NULL");
+            return;
+        }
+
+        tileDataMap[new Vector2Int(posWorld.x, posWorld.y)] = newTileData; //add to dictionary
+    }
+
+    //Return tile data for a specific tile - using world co-ord
+    public TileData GetSpecificTileData(Vector2Int pos)
+    {
+        if (tileDataMap.TryGetValue(pos, out TileData tile))
+        {
+            return tile;
+        }
+
+        Debug.LogError("NO TILE FOUND - - CHECK DICTIONARY WORKS");
+        return null;
+    }
+
+    //Returns a list of tiles that surround a chosen tiles
+    public List<TileData> GetSurroundingTiles(Vector2Int pos) 
+    { 
+        List<TileData> surroundingTiles = new List<TileData>();
+
+        foreach (Vector2Int dir in directions)
+        {
+            Vector2Int neighborPos = pos + dir;
+
+            if (tileDataMap.TryGetValue(neighborPos, out TileData tile))
+            {
+                surroundingTiles.Add(tile);
+            }
+        }
+
+        return surroundingTiles;
     }
 }
