@@ -15,13 +15,22 @@ MonoBehaviour:
   biomes:
   - name: water
     elevationMin: 0
-    elevationMax: 0.3
+    elevationMax: 0.2
     moistureMin: 0
     moistureMax: 0
     blendMargin: 0
     isTileNotWalkable: 1
     tiles:
     - {fileID: 11400000, guid: 23811ef56d9e66141ba25769b736b8ef, type: 2}
+  - name: sand
+    elevationMin: 0.2
+    elevationMax: 0.3
+    moistureMin: 0
+    moistureMax: 0
+    blendMargin: 0
+    isTileNotWalkable: 0
+    tiles:
+    - {fileID: 11400000, guid: 26900a55fd3279147bab2b26078af7d8, type: 2}
   - name: grass
     elevationMin: 0.3
     elevationMax: 1
