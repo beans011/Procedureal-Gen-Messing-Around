@@ -92,10 +92,12 @@ public class WORLD_GENERATOR : MonoBehaviour
         worldSizeX = worldWidth * chunkWidth;
         worldSizeY = worldHeight * chunkHeight;
 
+        TILE_MANAGER.instance.DeclareTileDataArray(worldSizeX * worldSizeY);//called so it is declared before things are added
+
         //order is important must have generation after determining the values
         GenerateSeed();
         GenerateFallOff();
-        GenerateElevationNoiseMap(); //need to generate the falloff map first
+        GenerateElevationNoiseMap(); //need to generate the falloff map first        
         StartCoroutine(GenerateChunks());
     }
 
@@ -157,7 +159,7 @@ public class WORLD_GENERATOR : MonoBehaviour
         //nonWalkableTileMap.AddComponent<TilemapCollider2D>();
         //nonWalkableTileMapComponent = nonWalkableTileMap.GetComponent<Tilemap>();      
         #endregion
-        world = new GameObject("WORLD"); //create gameobject that all chunks will be under
+        world = new GameObject("WORLD"); //create gameobject that all chunks will be under        
     }
 
     //Fills in the chunks 
@@ -182,7 +184,7 @@ public class WORLD_GENERATOR : MonoBehaviour
                         float elevation = elevationMap[worldX, worldY];                                
 
                         Biome chosenBiome = GetTileData(elevation);
-                        PlaceTile(chosenBiome, tilePos, chunk);
+                        TILE_MANAGER.instance.PlaceTile(chosenBiome, tilePos, chunk);
                     }
                 }
 
@@ -226,8 +228,9 @@ public class WORLD_GENERATOR : MonoBehaviour
         return null;
     }
 
+    #region OLD CODE
     //Determines which grid to place tile in and places it
-    private void PlaceTile(Biome passedBiome, Vector3Int pos, GameObject chunk)
+    /*private void PlaceTile(Biome passedBiome, Vector3Int pos, GameObject chunk)
     {
         if (passedBiome == null)
         {
@@ -239,6 +242,18 @@ public class WORLD_GENERATOR : MonoBehaviour
         Tilemap walkableTilemap = chunk.transform.GetChild(0).GetComponent<Tilemap>();
         Tilemap nonWalkableTilemap = chunk.transform.GetChild(1).GetComponent<Tilemap>();
 
+        //Cheeky validation
+        if (walkableTilemap = null) 
+        {
+            Debug.LogError("NO WALKABLE TILEMAP FOUND - - CHECK IF ONE HAS BEEN PASSED THROUGH");
+            return;
+        }
+        if (nonWalkableTilemap = null)
+        {
+            Debug.LogError("NO NON-WALKABLE TILEMAP FOUND - - CHECK IF ONE HAS BEEN PASSED THROUGH");
+            return;
+        }
+
         TileBase tile = passedBiome.tiles[UnityEngine.Random.Range(0, passedBiome.tiles.Length)];
 
         if (passedBiome.isTileNotWalkable)
@@ -249,7 +264,8 @@ public class WORLD_GENERATOR : MonoBehaviour
         {
             walkableTilemap.SetTile(pos, tile);
         }       
-    }
+    }*/
+    #endregion
 
     //Generates a noise map for elevation
     private void GenerateElevationNoiseMap()
