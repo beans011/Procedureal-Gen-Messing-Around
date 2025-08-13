@@ -25,3 +25,6 @@ HELL aka volcano
 STRUCTURES:
 Probably gonna be seperate instances/scenes or off screen places
 Gonna have like portals/entrances on surface
+
+TRY USING CELLULAR AUTOMATA FOR CAVES
+TRY MAKING SETROOMS AND THEN LINKING THEM FOR DUNGEONS
