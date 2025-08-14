@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BiomeLookupTable
   m_EditorClassIdentifier: Assembly-CSharp::BiomeTable
   biomes:
-  - name: water
+  - name: shallowOcean
     elevationMin: 0
     elevationMax: 0.2
     moistureMin: 0
@@ -22,7 +22,7 @@ MonoBehaviour:
     isTileNotWalkable: 1
     tiles:
     - {fileID: 11400000, guid: 23811ef56d9e66141ba25769b736b8ef, type: 2}
-  - name: sand
+  - name: beach
     elevationMin: 0.2
     elevationMax: 0.3
     moistureMin: 0
@@ -31,7 +31,7 @@ MonoBehaviour:
     isTileNotWalkable: 0
     tiles:
     - {fileID: 11400000, guid: 26900a55fd3279147bab2b26078af7d8, type: 2}
-  - name: grass
+  - name: meadow
     elevationMin: 0.3
     elevationMax: 1
     moistureMin: 0

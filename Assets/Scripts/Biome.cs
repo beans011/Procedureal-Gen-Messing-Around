@@ -18,6 +18,18 @@ public class Biome
     public bool isTileNotWalkable;
 
     public TileBase[] tiles; //Assign from tile palette in inspector
+    public BiomeNoiseMapData noiseMapData;
+}
+
+[CreateAssetMenu(menuName = "Biome Noise Map Data")]
+public class BiomeNoiseMapData : ScriptableObject
+{
+    public float noiseScale { get; private set; }
+    public int octaves {  get; private set; }
+    public float persistence {  get; private set; }
+    public float lacurnity { get; private set; }
+    public float amplitude { get; private set; }
+    public float frequency { get; private set; }
 }
 
 [CreateAssetMenu(menuName = "Biome Lookup Table")]

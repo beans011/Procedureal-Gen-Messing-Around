@@ -73,7 +73,7 @@ public class TILE_MANAGER : MonoBehaviour
             return;
         }
 
-        TileBase tile = passedBiome.tiles[UnityEngine.Random.Range(0, passedBiome.tiles.Length)];
+        TileBase tile = BIOME_MANAGER.instance.GetTileForBiome(passedBiome, pos, chunk);
 
         if (passedBiome.isTileNotWalkable)
         {

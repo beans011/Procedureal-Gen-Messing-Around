@@ -83,8 +83,6 @@ public class WORLD_GENERATOR : MonoBehaviour
 
     private void Start()
     {
-
-
         //checking biome elevation gaps
         for (int i = 1; i < biomeTable.biomes.Count; i++)
         {
@@ -94,12 +92,11 @@ public class WORLD_GENERATOR : MonoBehaviour
             }
         }
 
-        
-
         //order is important must have generation after determining the values
         GenerateSeed();
         GenerateFallOff();
-        GenerateElevationNoiseMap(); //need to generate the falloff map first        
+        GenerateElevationNoiseMap(); //need to generate the falloff map first
+        BIOME_MANAGER.instance.GenerateBiomeNoiseMaps(biomeTable);
         StartCoroutine(GenerateChunks());
     }
 
@@ -333,4 +330,11 @@ public class WORLD_GENERATOR : MonoBehaviour
     //Gets the chunk width and height
     public int GetChunkWidth() { return chunkWidth; }
     public int GetChunkHeight() { return chunkHeight; }
+
+    //Get the elevation seed
+    public float GetElevationSeed() { return elevationSeed; }
+
+    //Get world sizes
+    public int GetWorldX() { return worldSizeX; }
+    public int GetWorldY() { return worldSizeY; }
 }
