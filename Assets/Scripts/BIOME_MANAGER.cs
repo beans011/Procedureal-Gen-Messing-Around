@@ -34,6 +34,7 @@ public class BIOME_MANAGER : MonoBehaviour
     THIS IS VERY IMPORTANT YOU MUST REMEMBER THIS
 
      */
+    //MAKE SURE ALL THE NOISE MAPS ARE HERE
     private float[,] mangroveNoiseMap;
 
     //Generates all the biome noisemaps
@@ -136,8 +137,10 @@ public class BIOME_MANAGER : MonoBehaviour
 
         float noiseValue = mangroveNoiseMap[posWorld.x, posWorld.y];
 
+        Debug.Log(noiseValue);
+
         //CAN TWEAK NOISE VALUES HERE AS WHAT I WANT
-        if (noiseValue < 0.4f)
+        if (noiseValue < 0.3f)
         {
             return biome.tiles[0];
         }
