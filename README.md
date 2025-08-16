@@ -1,4 +1,4 @@
-THING I WANT TO DO NEXT: ADD IN TEMPERATURE MAP FOR BIOMES THEN MAKE MOUNTAINS SPAWN AND THEN CAVES THAT LEAD TO OTHER PARTS OF MAP
+THING I WANT TO DO NEXT: MAKE MOUNTAINS SPAWN AND THEN CAVES THAT LEAD TO OTHER PARTS OF MAP
 
 FOR NEXT THING: split each biome into each having its own 2d array to store points then apply its own type of biome generation which will stay the same (no randomness)
 
