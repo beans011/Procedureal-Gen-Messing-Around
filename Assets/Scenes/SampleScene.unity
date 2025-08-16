@@ -720,7 +720,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1953096226155223693, guid: 574bceb423bb2994ebf9d34656b26a86, type: 3}
       propertyPath: elevationScale
-      value: 0.08
+      value: 0.02
       objectReference: {fileID: 0}
     - target: {fileID: 1953096226155223693, guid: 574bceb423bb2994ebf9d34656b26a86, type: 3}
       propertyPath: temperatureScale
