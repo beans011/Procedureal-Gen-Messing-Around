@@ -69,6 +69,12 @@ public class WORLD_GENERATOR : MonoBehaviour
     [Range(0.001f, 1f)] [SerializeField] private float elevationScale;
     private float[,] elevationMap;
 
+    //stuff for tempearture map
+    private float temperatureSeed;
+    [Tooltip("Controls the zoom level of the noise")]
+    [Range(0.001f, 1f)][SerializeField] private float temperatureScale;
+    private float[,] temperatureMap;
+
     //falloff variables
     private float falloffPower;
     private float[,] falloffMap; //for pre calculating falloff values maybe has better optimisation then
@@ -96,6 +102,7 @@ public class WORLD_GENERATOR : MonoBehaviour
         GenerateSeed();
         GenerateFallOff();
         GenerateElevationNoiseMap(); //need to generate the falloff map first
+        GenerateTemeperatureNosieMap();
         BIOME_MANAGER.instance.GenerateBiomeNoiseMaps(biomeTable);
         StartCoroutine(GenerateChunks());
     }
@@ -107,7 +114,13 @@ public class WORLD_GENERATOR : MonoBehaviour
 
         //GENERATING GOD SEED
         elevationSeed = UnityEngine.Random.Range(-1000.0f, 1000.0f);
+        elevationSeed = (float)Math.Round(elevationSeed, 2);
         Debug.Log("GEMERATING GOD SEED...\n" + "SEED: " + elevationSeed.ToString());
+
+        //GENERATING GOD TEMPERATURE SEED 
+        temperatureSeed = UnityEngine.Random.Range(-1000.0f, 1000.0f);
+        temperatureSeed = (float)Math.Round(temperatureSeed, 2);
+        Debug.Log("GEMERATING GOD TEMPERATURE SEED...\n" + "SEED: " + temperatureSeed.ToString());
 
         //GENERATING GOD FALLOFF
         falloffPower = UnityEngine.Random.Range(1.0f, 5.0f);
@@ -154,9 +167,12 @@ public class WORLD_GENERATOR : MonoBehaviour
                         Vector3Int tilePos = new Vector3Int(x, y, 0);
 
                         //Get the elevation value                        
-                        float elevation = elevationMap[worldX, worldY];                                
+                        float elevation = elevationMap[worldX, worldY];  
+                        
+                        //Get the temperature value
+                        float temperature = temperatureMap[worldX, worldY];
 
-                        Biome chosenBiome = GetTileData(elevation);
+                        Biome chosenBiome = GetTileData(elevation, temperature);
                         TILE_MANAGER.instance.PlaceTile(chosenBiome, tilePos, chunk);
                     }
                 }
@@ -184,21 +200,66 @@ public class WORLD_GENERATOR : MonoBehaviour
     }
 
     //Gets the correct tile determined by the generated noise
-    Biome GetTileData(float elevation)
+    Biome GetTileData(float elevation, float temperature)
     {
+        Biome bestBiome = null;
+        float smallestDistance = float.MaxValue;
+
         foreach (Biome biome in biomeTable.biomes)
         {
-            Biome biomeCheck = biome;
+            bool insideElevation = elevation >= biome.elevationMin && elevation <= biome.elevationMax;
+            bool insideMoisture = temperature >= biome.temperatureMin && temperature <= biome.temperatureMax;
 
-            if (elevation >= biomeCheck.elevationMin && elevation < biomeCheck.elevationMax + 0.01)
+            if (insideElevation && insideMoisture)
             {
-                return biomeCheck;
+                return biome;
+            }
+
+            //Find the next best biome tile if nothing good is found
+            float dx = 0f;
+            if (elevation < biome.elevationMin)
+            { 
+                dx = biome.elevationMin - elevation;
+            } 
+            else if (elevation > biome.elevationMax)
+            {
+                dx = elevation - biome.elevationMax;
+            }
+
+            float dy = 0f;
+            if (temperature < biome.temperatureMin)
+            {
+                dy = biome.temperatureMin - temperature;
+            }
+            else if (temperature > biome.temperatureMax)
+            {
+                dy = temperature - biome.temperatureMax;
+            }
+
+            float distance = Mathf.Sqrt(dx * dx + dy * dy);
+
+            if (distance < smallestDistance)
+            {
+                smallestDistance = distance;
+                bestBiome = biome;
             }
         }
 
         Debug.Log(elevation);
-        Debug.LogError("NO VALID BIOME FOUND - CHECK THE BIOME TABLE");
-        return null;
+        Debug.Log(temperature);
+        Debug.LogError("NO VALID BIOME FOUND GOING WITH NEXT BEST THINF - CHECK THE BIOME TABLE");
+        return bestBiome;
+        #region OLD COLD
+        //foreach (Biome biome in biomeTable.biomes)
+        //{
+        //    Biome biomeCheck = biome;
+
+        //    if (elevation >= biomeCheck.elevationMin && elevation < biomeCheck.elevationMax + 0.01)
+        //    {
+        //        return biomeCheck;
+        //    }
+        //}
+        #endregion
     }
 
     //Generates a noise map for elevation
@@ -215,6 +276,24 @@ public class WORLD_GENERATOR : MonoBehaviour
                 elevation = ClampElevation(elevation);
 
                 elevationMap[x, y] = elevation;
+            }
+        }
+    }
+
+    //Generates the temperature noise map
+    private void GenerateTemeperatureNosieMap()
+    {
+        temperatureMap = new float[worldSizeX, worldSizeY];
+
+        for (int x = 0; x < worldSizeX; x++)
+        {
+            for (int y = 0; y < worldSizeY; y++)
+            {
+                float temperature = Mathf.PerlinNoise((x + temperatureSeed) * temperatureScale, (y + temperatureSeed) * temperatureScale); //change this line when want to change elevation stuff
+
+                temperature = ClampElevation(temperature);
+
+                temperatureMap[x, y] = temperature;
             }
         }
     }

@@ -10,8 +10,8 @@ public class Biome
     [Range(0f, 1f)] public float elevationMin;
     [Range(0f, 1f)] public float elevationMax;
 
-    [Range(0f, 1f)] public float moistureMin;
-    [Range(0f, 1f)] public float moistureMax;
+    [Range(0f, 1f)] public float temperatureMin;
+    [Range(0f, 1f)] public float temperatureMax;
 
     public float blendMargin = 0.05f;
 
