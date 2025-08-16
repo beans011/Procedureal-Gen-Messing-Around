@@ -201,65 +201,23 @@ public class WORLD_GENERATOR : MonoBehaviour
 
     //Gets the correct tile determined by the generated noise
     Biome GetTileData(float elevation, float temperature)
-    {
-        Biome bestBiome = null;
-        float smallestDistance = float.MaxValue;
-
+    {  
         foreach (Biome biome in biomeTable.biomes)
         {
-            bool insideElevation = elevation >= biome.elevationMin && elevation <= biome.elevationMax;
-            bool insideMoisture = temperature >= biome.temperatureMin && temperature <= biome.temperatureMax;
+            Biome biomeCheck = biome;
 
-            if (insideElevation && insideMoisture)
+            if (elevation > biome.elevationMin - 0.01 && elevation < biome.elevationMax + 0.01)
             {
-                return biome;
-            }
-
-            //Find the next best biome tile if nothing good is found
-            float dx = 0f;
-            if (elevation < biome.elevationMin)
-            { 
-                dx = biome.elevationMin - elevation;
-            } 
-            else if (elevation > biome.elevationMax)
-            {
-                dx = elevation - biome.elevationMax;
-            }
-
-            float dy = 0f;
-            if (temperature < biome.temperatureMin)
-            {
-                dy = biome.temperatureMin - temperature;
-            }
-            else if (temperature > biome.temperatureMax)
-            {
-                dy = temperature - biome.temperatureMax;
-            }
-
-            float distance = Mathf.Sqrt(dx * dx + dy * dy);
-
-            if (distance < smallestDistance)
-            {
-                smallestDistance = distance;
-                bestBiome = biome;
-            }
+                if (temperature > biome.temperatureMin - 0.01 && temperature < biome.temperatureMax + 0.01)
+                {
+                    return biomeCheck;
+                }
+            }    
         }
 
         Debug.Log(elevation);
         Debug.Log(temperature);
-        Debug.LogError("NO VALID BIOME FOUND GOING WITH NEXT BEST THINF - CHECK THE BIOME TABLE");
-        return bestBiome;
-        #region OLD COLD
-        //foreach (Biome biome in biomeTable.biomes)
-        //{
-        //    Biome biomeCheck = biome;
-
-        //    if (elevation >= biomeCheck.elevationMin && elevation < biomeCheck.elevationMax + 0.01)
-        //    {
-        //        return biomeCheck;
-        //    }
-        //}
-        #endregion
+        return null;
     }
 
     //Generates a noise map for elevation

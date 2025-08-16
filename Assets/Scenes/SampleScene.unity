@@ -724,7 +724,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1953096226155223693, guid: 574bceb423bb2994ebf9d34656b26a86, type: 3}
       propertyPath: temperatureScale
-      value: 0.2
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 5923917359327397248, guid: 574bceb423bb2994ebf9d34656b26a86, type: 3}
       propertyPath: m_Name

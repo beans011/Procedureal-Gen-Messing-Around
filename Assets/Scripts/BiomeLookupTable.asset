@@ -13,44 +13,154 @@ MonoBehaviour:
   m_Name: BiomeLookupTable
   m_EditorClassIdentifier: Assembly-CSharp::BiomeTable
   biomes:
-  - name: shallowOcean
+  - name: deep_ocean
     elevationMin: 0
     elevationMax: 0.2
     temperatureMin: 0
-    temperatureMax: 0
+    temperatureMax: 1
     blendMargin: 0
     isTileNotWalkable: 1
     tiles:
-    - {fileID: 11400000, guid: 23811ef56d9e66141ba25769b736b8ef, type: 2}
+    - {fileID: 11400000, guid: c47821dff529fae42b155968865d9b20, type: 2}
     noiseMapData: {fileID: 0}
-  - name: beach
+  - name: shallow_ocean
     elevationMin: 0.2
-    elevationMax: 0.3
+    elevationMax: 0.4
     temperatureMin: 0
-    temperatureMax: 0
+    temperatureMax: 0.75
+    blendMargin: 0
+    isTileNotWalkable: 1
+    tiles:
+    - {fileID: 11400000, guid: 9d0c3360b2ba46a4e8fbec7f18ddf2a8, type: 2}
+    noiseMapData: {fileID: 0}
+  - name: iceberg
+    elevationMin: 0.2
+    elevationMax: 0.4
+    temperatureMin: 0.75
+    temperatureMax: 1
     blendMargin: 0
     isTileNotWalkable: 0
     tiles:
-    - {fileID: 11400000, guid: 26900a55fd3279147bab2b26078af7d8, type: 2}
+    - {fileID: 11400000, guid: c1725dca8553249469ac1a72fdb63fb8, type: 2}
     noiseMapData: {fileID: 0}
   - name: mangrove
-    elevationMin: 0.3
-    elevationMax: 0.5
+    elevationMin: 0.4
+    elevationMax: 0.6
     temperatureMin: 0
-    temperatureMax: 0
+    temperatureMax: 0.25
     blendMargin: 0
     isTileNotWalkable: 0
     tiles:
-    - {fileID: 11400000, guid: 378a746b11d5d6345af8051720a186c8, type: 2}
-    - {fileID: 11400000, guid: 1e8c9fec29092f54da14f10005f424f2, type: 2}
+    - {fileID: 11400000, guid: 408f850107442714a927fd0e4de0a571, type: 2}
+    - {fileID: 11400000, guid: 1f71d56bbd348b2418cddec0898d9d7d, type: 2}
     noiseMapData: {fileID: 11400000, guid: 53f1aa7e82855e94c887405dd7fac3a1, type: 2}
-  - name: meadow
-    elevationMin: 0.5
+  - name: warm_beach
+    elevationMin: 0.4
+    elevationMax: 0.6
+    temperatureMin: 0.25
+    temperatureMax: 0.5
+    blendMargin: 0
+    isTileNotWalkable: 0
+    tiles:
+    - {fileID: 11400000, guid: b345b1ea6b8be9346a997cf052e52444, type: 2}
+    noiseMapData: {fileID: 0}
+  - name: beach
+    elevationMin: 0.4
+    elevationMax: 0.6
+    temperatureMin: 0.5
+    temperatureMax: 0.75
+    blendMargin: 0
+    isTileNotWalkable: 0
+    tiles:
+    - {fileID: 11400000, guid: ef3b33b064c14fa4d8ab94ea8fa30d93, type: 2}
+    noiseMapData: {fileID: 0}
+  - name: tundra
+    elevationMin: 0.4
+    elevationMax: 0.6
+    temperatureMin: 0.75
+    temperatureMax: 1
+    blendMargin: 0
+    isTileNotWalkable: 0
+    tiles:
+    - {fileID: 11400000, guid: d31d51071a1af0f4da8e4559f60f1cd2, type: 2}
+    noiseMapData: {fileID: 0}
+  - name: jungle
+    elevationMin: 0.6
+    elevationMax: 0.8
+    temperatureMin: 0
+    temperatureMax: 0.25
+    blendMargin: 0
+    isTileNotWalkable: 0
+    tiles:
+    - {fileID: 11400000, guid: 5732b5344e194b742b21c0467523889d, type: 2}
+    noiseMapData: {fileID: 0}
+  - name: grassland
+    elevationMin: 0.6
+    elevationMax: 0.8
+    temperatureMin: 0.25
+    temperatureMax: 0.5
+    blendMargin: 0
+    isTileNotWalkable: 0
+    tiles:
+    - {fileID: 11400000, guid: b87ed4b1b62e83e4f870fcca6cab1f1c, type: 2}
+    noiseMapData: {fileID: 0}
+  - name: forest
+    elevationMin: 0.6
+    elevationMax: 0.8
+    temperatureMin: 0.5
+    temperatureMax: 0.75
+    blendMargin: 0
+    isTileNotWalkable: 0
+    tiles:
+    - {fileID: 11400000, guid: 75a03606c4a000943aebef3be2eb8014, type: 2}
+    noiseMapData: {fileID: 0}
+  - name: taiga
+    elevationMin: 0.6
+    elevationMax: 0.8
+    temperatureMin: 0.75
+    temperatureMax: 1
+    blendMargin: 0
+    isTileNotWalkable: 0
+    tiles:
+    - {fileID: 11400000, guid: a16ee14994398c94e8c884bfa4a2f824, type: 2}
+    noiseMapData: {fileID: 0}
+  - name: cliffs
+    elevationMin: 0.8
     elevationMax: 1
     temperatureMin: 0
-    temperatureMax: 0
+    temperatureMax: 0.25
+    blendMargin: 0
+    isTileNotWalkable: 1
+    tiles:
+    - {fileID: 11400000, guid: 35c8fe0b2368c4b4eb9caaf02175b5cd, type: 2}
+    noiseMapData: {fileID: 0}
+  - name: mountains
+    elevationMin: 0.8
+    elevationMax: 1
+    temperatureMin: 0.25
+    temperatureMax: 0.5
+    blendMargin: 0
+    isTileNotWalkable: 1
+    tiles:
+    - {fileID: 11400000, guid: 08e88e0f569ef054caf6f8c7c41c56eb, type: 2}
+    noiseMapData: {fileID: 0}
+  - name: steppe
+    elevationMin: 0.8
+    elevationMax: 1
+    temperatureMin: 0.5
+    temperatureMax: 0.75
     blendMargin: 0
     isTileNotWalkable: 0
     tiles:
-    - {fileID: 11400000, guid: 6a65c3fbd1683404a8053283e4945658, type: 2}
+    - {fileID: 11400000, guid: 035348a0f8759fa44bcb7b67443c0e13, type: 2}
+    noiseMapData: {fileID: 0}
+  - name: snow_caps
+    elevationMin: 0.8
+    elevationMax: 1
+    temperatureMin: 0.75
+    temperatureMax: 1
+    blendMargin: 0
+    isTileNotWalkable: 1
+    tiles:
+    - {fileID: 11400000, guid: 46414b9fdf26f484dbf4b0d59e3812d9, type: 2}
     noiseMapData: {fileID: 0}

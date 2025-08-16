@@ -100,22 +100,24 @@ public class BIOME_MANAGER : MonoBehaviour
             0
         );
 
-        if (biome.name == "shallowOcean")
-        {
-            return GetFirstTile(biome);
-        }
-        if (biome.name == "beach")
-        {
-            return GetFirstTile(biome);
-        }
-        if (biome.name == "meadow")
-        {
-            return GetFirstTile(biome);
-        }
+        if (biome.name == "deep_ocean") { return GetFirstTile(biome); }
+        if (biome.name == "shallow_ocean") { return GetFirstTile(biome); }
+        if (biome.name == "iceberg") { return GetFirstTile(biome); }       
         if (biome.name == "mangrove")
         {
             return GetMangroveTile(posWorld, biome);
         }
+        if (biome.name == "warm_beach") { return GetFirstTile(biome); }
+        if (biome.name == "beach") { return GetFirstTile(biome); }
+        if (biome.name == "tundra") { return GetFirstTile(biome); }
+        if (biome.name == "jungle") { return GetFirstTile(biome); }
+        if (biome.name == "grassland") { return GetFirstTile(biome); }
+        if (biome.name == "forest") { return GetFirstTile(biome); }
+        if (biome.name == "taiga") { return GetFirstTile(biome); }
+        if (biome.name == "cliffs") { return GetFirstTile(biome); }
+        if (biome.name == "mountains") { return GetFirstTile(biome); }
+        if (biome.name == "steppe") { return GetFirstTile(biome); }
+        if (biome.name == "snow_caps") { return GetFirstTile(biome); }
 
         Debug.LogError("NO TILE RETURNED");
         return null;
