@@ -64,7 +64,7 @@ MonoBehaviour:
     tiles:
     - {fileID: 11400000, guid: b345b1ea6b8be9346a997cf052e52444, type: 2}
     noiseMapData: {fileID: 11400000, guid: 1ae887a332ac54d4ab3e96a7d0a1243e, type: 2}
-  - name: beach
+  - name: grassland
     elevationMin: 0.4
     elevationMax: 0.6
     temperatureMin: 0.5
@@ -72,7 +72,7 @@ MonoBehaviour:
     blendMargin: 0
     isTileNotWalkable: 0
     tiles:
-    - {fileID: 11400000, guid: ef3b33b064c14fa4d8ab94ea8fa30d93, type: 2}
+    - {fileID: 11400000, guid: b87ed4b1b62e83e4f870fcca6cab1f1c, type: 2}
     noiseMapData: {fileID: 11400000, guid: 1ae887a332ac54d4ab3e96a7d0a1243e, type: 2}
   - name: tundra
     elevationMin: 0.4
@@ -95,7 +95,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 5732b5344e194b742b21c0467523889d, type: 2}
     noiseMapData: {fileID: 11400000, guid: 1ae887a332ac54d4ab3e96a7d0a1243e, type: 2}
   - name: grassland
-    elevationMin: 0.6
+    elevationMin: 0.4
     elevationMax: 0.8
     temperatureMin: 0.25
     temperatureMax: 0.5

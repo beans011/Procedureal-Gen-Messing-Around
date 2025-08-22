@@ -68,6 +68,10 @@ public class WORLD_GENERATOR : MonoBehaviour
     [Tooltip("Controls the zoom level of the noise")]
     [Range(0.001f, 1f)] [SerializeField] private float elevationScale;
     private float[,] elevationMap;
+    private float elevationAmplitude;
+    private float elevationFrequency;
+    private float elevationPersistence;
+    private float elevationLacurnity = 1;
 
     //stuff for tempearture map
     private float temperatureSeed;
@@ -76,6 +80,8 @@ public class WORLD_GENERATOR : MonoBehaviour
     private float[,] temperatureMap;
 
     //falloff variables
+    [Header("Falloff Variables")]
+    [SerializeField] private bool turnOnFallOff;
     private float falloffPower;
     private float[,] falloffMap; //for pre calculating falloff values maybe has better optimisation then
     private int falloffEdgeMargin; //to ensure smooth transistion to water at all edges
@@ -116,6 +122,10 @@ public class WORLD_GENERATOR : MonoBehaviour
         elevationSeed = UnityEngine.Random.Range(-1000.0f, 1000.0f);
         elevationSeed = (float)Math.Round(elevationSeed, 2);
         Debug.Log("GEMERATING GOD SEED...\n" + "SEED: " + elevationSeed.ToString());
+        elevationAmplitude = UnityEngine.Random.Range(0.5f, 1.25f);
+        elevationFrequency = UnityEngine.Random.Range(0.5f, 1.0f);
+        elevationPersistence = UnityEngine.Random.Range(0.1f, 0.3f);
+        elevationLacurnity = UnityEngine.Random.Range(1.5f, 2.2f);
 
         //GENERATING GOD TEMPERATURE SEED 
         temperatureSeed = UnityEngine.Random.Range(-1000.0f, 1000.0f);
@@ -229,13 +239,46 @@ public class WORLD_GENERATOR : MonoBehaviour
         {
             for (int y = 0; y < worldSizeY; y++) 
             {
-                float elevation = Mathf.PerlinNoise((x + elevationSeed) * elevationScale, (y + elevationSeed) * elevationScale); //change this line when want to change elevation stuff
-                elevation = elevation - falloffMap[x, y];
+                float elevation = GenerateBiomeNoise(x, y, elevationSeed); //Mathf.PerlinNoise((x + elevationSeed) * elevationScale, (y + elevationSeed) * elevationScale); //change this line when want to change elevation stuff
+
+                if (turnOnFallOff == true) 
+                {
+                    elevation = elevation - falloffMap[x, y];
+                }
+                
                 elevation = ClampElevation(elevation);
 
                 elevationMap[x, y] = elevation;
             }
         }
+    }
+
+    private float GenerateBiomeNoise(int x, int y, float elevationSeed)
+    {
+        float noiseHeight = 0f;
+        float amplitude = 1f;
+        float frequency = 1f;
+        float maxAmplitude = 0f;
+
+        int octaves = 5;
+
+        for (int i = 0; i < octaves; i++)
+        {
+            float sampleX = (x + elevationSeed) * elevationScale * frequency;
+            float sampleY = (y + elevationSeed) * elevationScale * frequency;
+
+            float perlinValue = Mathf.PerlinNoise(sampleX, sampleY);
+
+            noiseHeight += perlinValue * amplitude;
+            maxAmplitude += amplitude;
+
+            amplitude *= elevationPersistence;
+            frequency *= elevationLacurnity; 
+        }
+
+        noiseHeight /= maxAmplitude;
+
+        return noiseHeight;
     }
 
     //Generates the temperature noise map
